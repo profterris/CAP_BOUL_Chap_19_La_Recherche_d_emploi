@@ -1,0 +1,1318 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>La recherche d'emploi</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=Inter:wght@300;400;500;600&display=swap">
+<style>
+/* ── RESET & BASE ─────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+/* Fiche d'exercices en thème clair : blocs = séances, cartes dépliables, corrections masquables */
+:root {
+  --bg:        #f4f6f9;
+  --surface:   #ffffff;
+  --card:      #ffffff;
+  --border:    #dfe3ea;
+  --border-hi: #b9c0ce;
+  --text:      #1d2230;
+  --text-dim:  #5c6476;
+  --accent:    #b97d00;
+  --accent-bg: #fff6df;
+  --green:     #1b8047;
+  --green-bg:  #ecf7f0;
+  --green-bd:  #c9e6d4;
+  --green-dk:  #12552f;
+  --red:       #c23b3b;
+  --blue:      #2d69ad;
+  --blue-bg:   #edf3fb;
+  --purple:    #6f45ad;
+  --font-head: 'Syne', 'Trebuchet MS', sans-serif;
+  --font-body: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --radius:    10px;
+  color-scheme: light;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 15px;
+  line-height: 1.7;
+  min-height: 100vh;
+}
+
+/* ── HEADER ──────────────────────────────────────────────── */
+.site-header {
+  background: linear-gradient(135deg, #ffffff 0%, #eef2f8 100%);
+  border-bottom: 1px solid var(--border);
+  padding: 44px 20px 32px;
+  text-align: center;
+}
+.site-header .kicker {
+  display: inline-block;
+  background: var(--accent);
+  color: #ffffff;
+  font-family: var(--font-head);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  padding: 3px 12px;
+  border-radius: 3px;
+  margin-bottom: 18px;
+}
+.site-header h1 {
+  font-family: var(--font-head);
+  font-size: clamp(24px, 6vw, 38px);
+  font-weight: 800;
+  color: var(--text);
+  margin-bottom: 8px;
+  line-height: 1.15;
+  text-wrap: balance;
+}
+.site-header .sub {
+  color: var(--text-dim);
+  font-size: 14px;
+  font-weight: 400;
+  max-width: 540px;
+  margin: 0 auto 20px;
+}
+.legende {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+  margin: 0 auto 22px;
+  font-size: 12.5px;
+  color: var(--text-dim);
+}
+
+/* ── NAV ANCRES ──────────────────────────────────────────── */
+.nav-anchors {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.nav-anchors a {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text);
+  font-size: 13px;
+  font-weight: 500;
+  padding: 7px 14px;
+  text-decoration: none;
+  transition: border-color .15s, color .15s;
+}
+.nav-anchors a:hover, .nav-anchors a:focus-visible { border-color: var(--accent); color: var(--accent); }
+
+/* ── CONTENEUR PRINCIPAL ─────────────────────────────────── */
+main {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 36px 18px 80px;
+}
+
+/* ── TITRE DE BLOC ───────────────────────────────────────── */
+.bloc-titre {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin: 52px 0 6px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--border);
+}
+.bloc-titre:first-child { margin-top: 0; }
+.bloc-titre .icone { font-size: 26px; flex-shrink: 0; }
+.bloc-titre h2 {
+  font-family: var(--font-head);
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--text);
+  line-height: 1.3;
+  text-wrap: balance;
+}
+.bloc-titre h2 small {
+  display: block;
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--accent);
+  letter-spacing: 1px;
+}
+
+/* ── MÉMO ────────────────────────────────────────────────── */
+.memo {
+  background: var(--green-bg);
+  border: 1px solid var(--green-bd);
+  border-left: 4px solid var(--green);
+  border-radius: var(--radius);
+  padding: 16px 18px;
+  margin: 16px 0 24px;
+  font-size: 14px;
+  line-height: 1.75;
+}
+.memo .memo-titre {
+  font-family: var(--font-head);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--green);
+  margin-bottom: 8px;
+}
+.memo code {
+  display: block;
+  background: #ffffff;
+  border: 1px solid var(--green-bd);
+  border-radius: 5px;
+  padding: 8px 12px;
+  color: var(--green-dk);
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: 13.5px;
+  margin: 5px 0;
+}
+.memo .note { color: var(--text-dim); font-size: 13px; margin-top: 8px; }
+
+/* ── CARTE EXERCICE ──────────────────────────────────────── */
+.exo-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  margin-bottom: 14px;
+  overflow: hidden;
+  transition: border-color .15s;
+}
+.exo-card:hover { border-color: var(--border-hi); }
+
+.exo-header {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px 12px;
+  padding: 14px 16px;
+  cursor: pointer;
+  user-select: none;
+  list-style: none;
+}
+.exo-header::-webkit-details-marker { display: none; }
+.exo-header:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+
+.exo-num {
+  font-family: var(--font-head);
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text-dim);
+  flex-shrink: 0;
+  min-width: 40px;
+}
+.badge {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  padding: 2px 9px;
+  border-radius: 3px;
+  flex-shrink: 0;
+}
+.badge-1 { background: #e9f6ee; color: var(--green); border: 1px solid #bfe2cc; }
+.badge-2 { background: var(--accent-bg); color: #8a5d00; border: 1px solid #efd798; }
+.badge-3 { background: #fbeaea; color: var(--red); border: 1px solid #efc4c4; }
+.badge-exam { background: #f2ecfa; color: var(--purple); border: 1px solid #d9c9ef; }
+
+.exo-titre-txt {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text);
+  flex: 1 1 200px;
+  min-width: 0;
+}
+.chevron { color: var(--text-dim); font-size: 13px; flex-shrink: 0; transition: transform .2s; }
+details[open] .chevron { transform: rotate(180deg); }
+
+/* ── CORPS DE L'EXERCICE ─────────────────────────────────── */
+.exo-body { padding: 0 16px 20px; border-top: 1px solid var(--border); }
+
+.contexte {
+  background: var(--blue-bg);
+  border-left: 3px solid var(--blue);
+  border-radius: 0 6px 6px 0;
+  padding: 14px 16px;
+  margin: 16px 0;
+  font-size: 14px;
+  line-height: 1.75;
+}
+.contexte strong { color: var(--text); }
+
+.table-wrap { overflow-x: auto; margin: 12px 0; }
+.tableau-donnees {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+  background: var(--surface);
+}
+.tableau-donnees th {
+  background: #eef1f6;
+  color: var(--text-dim);
+  font-family: var(--font-head);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  padding: 8px 10px;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+}
+.tableau-donnees td {
+  padding: 8px 10px;
+  border-bottom: 1px solid var(--border);
+  color: var(--text);
+  vertical-align: top;
+}
+.tableau-donnees tr:last-child td { border-bottom: none; }
+.tableau-donnees td.num { font-weight: 700; color: var(--text); white-space: nowrap; }
+
+.questions { margin: 18px 0 0; }
+.question { display: flex; gap: 10px; margin-bottom: 10px; align-items: flex-start; }
+.question .q-num {
+  flex-shrink: 0;
+  width: 22px;
+  height: 22px;
+  background: var(--accent);
+  color: #ffffff;
+  font-family: var(--font-head);
+  font-weight: 800;
+  font-size: 11px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 2px;
+}
+.question p { font-size: 14px; margin: 0; min-width: 0; }
+
+/* ── COUP DE POUCE ───────────────────────────────────────── */
+.ordre-grandeur {
+  background: var(--accent-bg);
+  border: 1px solid #efd798;
+  border-radius: 6px;
+  padding: 10px 14px;
+  font-size: 13px;
+  color: #6e4b00;
+  margin: 12px 0 0;
+}
+.ordre-grandeur::before { content: "💡 "; }
+
+/* ── BOUTON CORRECTION ───────────────────────────────────── */
+.btn-corrige {
+  background: var(--surface);
+  border: 1px solid var(--border-hi);
+  border-radius: 6px;
+  color: var(--text-dim);
+  cursor: pointer;
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 500;
+  padding: 9px 16px;
+  margin-top: 18px;
+  transition: all .15s;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.btn-corrige:hover, .btn-corrige:focus-visible { border-color: var(--green); color: var(--green); }
+
+/* ── CORRECTION ──────────────────────────────────────────── */
+.correction {
+  display: none;
+  background: var(--green-bg);
+  border: 1px solid var(--green-bd);
+  border-radius: 6px;
+  padding: 16px;
+  margin-top: 14px;
+  font-size: 14px;
+  line-height: 1.8;
+}
+.correction.visible { display: block; }
+.correction .corr-etape {
+  margin-bottom: 10px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--green-bd);
+}
+.correction .corr-etape:last-child { margin-bottom: 0; padding-bottom: 0; border-bottom: none; }
+.correction .c-num {
+  display: inline-block;
+  background: var(--green);
+  color: #ffffff;
+  font-family: var(--font-head);
+  font-weight: 800;
+  font-size: 10px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  text-align: center;
+  line-height: 18px;
+  margin-right: 6px;
+}
+.correction code {
+  display: block;
+  background: #ffffff;
+  border: 1px solid var(--green-bd);
+  border-radius: 4px;
+  padding: 6px 12px;
+  color: var(--green-dk);
+  font-family: var(--font-body);
+  font-size: 13.5px;
+  margin: 5px 0;
+}
+.correction .res { font-family: var(--font-head); font-weight: 700; color: var(--text); }
+.correction .conclu { margin-top: 8px; font-size: 13.5px; color: #2c6244; font-style: italic; }
+.correction .tableau-corr { width: 100%; border-collapse: collapse; font-size: 13px; margin: 8px 0; background: #ffffff; }
+.correction .tableau-corr th {
+  background: #dff0e6;
+  color: var(--green-dk);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  padding: 6px 10px;
+  text-align: left;
+}
+.correction .tableau-corr td { padding: 6px 10px; border-bottom: 1px solid var(--green-bd); color: #24402f; vertical-align: top; }
+.correction .tableau-corr td.val { font-weight: 700; color: var(--green); }
+
+/* ── SÉPARATEUR ──────────────────────────────────────────── */
+hr.section-sep { border: none; border-top: 1px solid var(--border); margin: 54px 0 0; }
+
+/* ── FOOTER ──────────────────────────────────────────────── */
+.site-footer {
+  border-top: 1px solid var(--border);
+  padding: 28px 20px;
+  text-align: center;
+  color: var(--text-dim);
+  font-size: 12px;
+  background: var(--surface);
+}
+
+/* ── RESPONSIVE ──────────────────────────────────────────── */
+@media (max-width: 520px) {
+  .exo-titre-txt { font-size: 13.5px; }
+  .contexte { font-size: 13.5px; }
+  .tableau-donnees { font-size: 12px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; }
+}
+</style>
+</head>
+<body>
+
+<!-- ══ HEADER ══════════════════════════════════════════════ -->
+<header class="site-header">
+  <div class="kicker">🥖 Gestion appliquée – CAP boulanger</div>
+  <h1>La recherche<br>d'emploi</h1>
+  <p class="sub">Chapitre 19. 18 exercices en 5 séances, avec la boulangerie Pains et Plaisirs Sucrés. Ouvre un exercice, réponds sur ton cahier, puis vérifie avec la correction.</p>
+  <div class="legende">
+    <span class="badge badge-1">⬆ décollage</span> je découvre
+    <span class="badge badge-2">◆ intermédiaire</span> j'applique
+    <span class="badge badge-exam">★ examen</span> je m'entraîne
+  </div>
+  <nav class="nav-anchors">
+    <a href="#marche">1 · Le marché du travail</a>
+    <a href="#chercher">2 · Où chercher un emploi</a>
+    <a href="#lettre">3 · Droits et lettre</a>
+    <a href="#entretien">4 · CV et entretien</a>
+    <a href="#examen">5 · Sujets type examen</a>
+  </nav>
+</header>
+
+<main>
+
+<!-- ══════════════════════════════════════════════════════════
+     BLOC 1 – LE MARCHÉ DU TRAVAIL (séance 1)
+══════════════════════════════════════════════════════════ -->
+<div class="bloc-titre" id="marche">
+  <span class="icone">📊</span>
+  <h2><small>Séance 1 · 1 h</small>Bloc 1 – Le marché du travail</h2>
+</div>
+
+<div class="memo">
+  <div class="memo-titre">🗂 mémo</div>
+  <code>Marché du travail = lieu où se rencontrent l'offre de travail (les personnes qui cherchent un emploi) et la demande de travail (les entreprises qui proposent des emplois).</code>
+  <code>Population active = population active occupée (15 ans ou plus, avec un emploi) + population active inoccupée (15 ans ou plus, sans emploi, qui en cherche un activement).</code>
+  <code>Population inactive = personnes qui ne travaillent pas et ne cherchent pas d'emploi (élèves, retraités…).</code>
+  <code>Chômage = déséquilibre entre l'offre et la demande de travail.</code>
+  <p class="note">Attention au piège : en économie, c'est le salarié qui « offre » son travail et l'entreprise qui le « demande ». Sources : page 139 du manuel, documents 1 et 2.</p>
+</div>
+
+<!-- EX 1 -->
+<details class="exo-card">
+  <summary class="exo-header">
+    <span class="exo-num">Ex. 1</span>
+    <span class="badge badge-1">⬆ décollage</span>
+    <span class="exo-titre-txt">Qui est actif, qui est inactif ?</span>
+    <span class="chevron">▼</span>
+  </summary>
+  <div class="exo-body">
+    <div class="contexte">
+      À la boulangerie <strong>Pains et Plaisirs Sucrés</strong>, à Capbreton (40), on parle emploi pendant la pause. Voici les personnes citées :<br><br>
+      • <strong>Mme Nadau-Fourcade</strong>, gérante de la boulangerie<br>
+      • <strong>Lucas</strong>, 17 ans, apprenti en CAP boulanger<br>
+      • <strong>Audrey Bousquet</strong>, CAP boulanger, son CDD vient de finir et elle envoie des candidatures<br>
+      • le père de <strong>M. Ponti</strong>, le chef boulanger, retraité<br>
+      • <strong>Léa</strong>, 15 ans, au collège
+    </div>
+    <div class="questions">
+      <div class="question"><span class="q-num">1</span><p>Classe chaque personne : actif occupé, actif inoccupé ou inactif.</p></div>
+      <div class="question"><span class="q-num">2</span><p>Explique pourquoi Audrey fait partie de la population active.</p></div>
+    </div>
+    <div class="ordre-grandeur"><strong>Coup de pouce :</strong> un apprenti signe un contrat de travail. Il a donc un emploi.</div>
+    <button class="btn-corrige" onclick="toggleCorr(this)">✅ Voir la correction</button>
+    <div class="correction">
+      <div class="corr-etape">
+        <span class="c-num">1</span>
+        <div class="table-wrap">
+        <table class="tableau-corr">
+          <tr><th>Personne</th><th>Catégorie</th></tr>
+          <tr><td class="val">Mme Nadau-Fourcade</td><td>Actif occupé</td></tr>
+          <tr><td class="val">Lucas, apprenti</td><td>Actif occupé (contrat d'apprentissage)</td></tr>
+          <tr><td class="val">Audrey</td><td>Actif inoccupé (chômeuse)</td></tr>
+          <tr><td class="val">Le père de M. Ponti</td><td>Inactif (retraité)</td></tr>
+          <tr><td class="val">Léa</td><td>Inactive (élève)</td></tr>
+        </table>
+        </div>
+      </div>
+      <div class="corr-etape">
+        <span class="c-num">2</span>
+        <p class="res">Audrey n'a pas d'emploi mais elle en cherche un activement : elle fait partie de la population active inoccupée.</p>
+        <p class="conclu">Ne pas travailler ne suffit pas pour être chômeur : il faut chercher un emploi.</p>
+      </div>
+    </div>
+  </div>
+</details>
+
+<!-- EX 2 -->
+<details class="exo-card">
+  <summary class="exo-header">
+    <span class="exo-num">Ex. 2</span>
+    <span class="badge badge-1">⬆ décollage</span>
+    <span class="exo-titre-txt">Calculer la population active française</span>
+    <span class="chevron">▼</span>
+  </summary>
+  <div class="exo-body">
+    <div class="contexte">
+      Lucas veut savoir combien de personnes travaillent ou cherchent un emploi en France. M. Ponti lui montre le <strong>document 1 du manuel</strong> (Insee, enquête emploi 2023, en milliers de personnes) :
+    </div>
+    <div class="table-wrap">
+    <table class="tableau-donnees">
+      <tr><th>Âge</th><th>Actifs occupés</th><th>Chômeurs</th><th>Inactifs</th></tr>
+      <tr><td>15 à 29 ans</td><td class="num">5 631,5</td><td class="num">889,1</td><td class="num">5 004,3</td></tr>
+      <tr><td>30 à 49 ans</td><td class="num">13 686,5</td><td class="num">874,0</td><td class="num">1 841,3</td></tr>
+      <tr><td>50 ans ou plus</td><td class="num">9 896,6</td><td class="num">521,9</td><td class="num">36 645,6</td></tr>
+    </table>
+    </div>
+    <div class="questions">
+      <div class="question"><span class="q-num">1</span><p>Calcule la population active occupée (exercice 2 du manuel).</p></div>
+      <div class="question"><span class="q-num">2</span><p>Calcule la population active inoccupée (exercice 3 du manuel).</p></div>
+      <div class="question"><span class="q-num">3</span><p>Calcule la population active totale. Justifie le calcul (exercice 1 du manuel).</p></div>
+    </div>
+    <div class="ordre-grandeur"><strong>Coup de pouce :</strong> les inactifs ne comptent pas dans la population active. 1 000 milliers = 1 million.</div>
+    <button class="btn-corrige" onclick="toggleCorr(this)">✅ Voir la correction</button>
+    <div class="correction">
+      <div class="corr-etape">
+        <span class="c-num">1</span> Actifs occupés :
+        <code>5 631,5 + 13 686,5 + 9 896,6 = 29 214,6 milliers</code>
+        <p class="res">Environ 29,2 millions de personnes.</p>
+      </div>
+      <div class="corr-etape">
+        <span class="c-num">2</span> Actifs inoccupés (chômeurs) :
+        <code>889,1 + 874,0 + 521,9 = 2 285 milliers</code>
+        <p class="res">Environ 2,3 millions de personnes.</p>
+        <p class="conclu">Erreur du corrigé du manuel : il indique « 31,5 – 29,2 = 2 millions ». Or 31,5 – 29,2 = 2,3 millions, ce que confirme le document 2 (2,3 millions de chômeurs).</p>
+      </div>
+      <div class="corr-etape">
+        <span class="c-num">3</span> Population active = actifs occupés + actifs inoccupés :
+        <code>29 214,6 + 2 285 = 31 499,6 milliers</code>
+        <p class="res">Environ 31,5 millions de personnes en 2023.</p>
+      </div>
+    </div>
+  </div>
+</details>
+
+<!-- EX 3 -->
+<details class="exo-card">
+  <summary class="exo-header">
+    <span class="exo-num">Ex. 3</span>
+    <span class="badge badge-2">◆ intermédiaire</span>
+    <span class="exo-titre-txt">Le chômage augmente : pourquoi ?</span>
+    <span class="chevron">▼</span>
+  </summary>
+  <div class="exo-body">
+    <div class="contexte">
+      Mme Nadau-Fourcade lit un article des Échos (<strong>document 2 du manuel</strong>) :<br><br>
+      • au 3e trimestre 2024, le taux de chômage est de <strong>7,4 %</strong> de la population active, soit 0,1 point de plus qu'au trimestre précédent ;<br>
+      • le contexte économique est incertain : plusieurs grands groupes et des PME suppriment des emplois ;<br>
+      • avec la réforme France Travail, à partir du 1er janvier 2025, les bénéficiaires du RSA et les jeunes suivis par les missions locales sont inscrits automatiquement comme demandeurs d'emploi.
+    </div>
+    <div class="questions">
+      <div class="question"><span class="q-num">1</span><p>Indique l'évolution du chômage en 2024 (exercice 4 du manuel).</p></div>
+      <div class="question"><span class="q-num">2</span><p>Donne 2 explications de cette évolution (exercice 5 du manuel).</p></div>
+      <div class="question"><span class="q-num">3</span><p>Explique pourquoi la réforme France Travail peut faire passer des personnes de « inactif » à « actif ».</p></div>
+    </div>
+    <div class="ordre-grandeur"><strong>Coup de pouce :</strong> une personne qui commence à chercher un emploi entre dans la population active.</div>
+    <button class="btn-corrige" onclick="toggleCorr(this)">✅ Voir la correction</button>
+    <div class="correction">
+      <div class="corr-etape">
+        <span class="c-num">1</span>
+        <p class="res">Le chômage a légèrement augmenté au 3e trimestre 2024 : il atteint 7,4 % de la population active.</p>
+      </div>
+      <div class="corr-etape">
+        <span class="c-num">2</span>
+        <code>Le contexte économique est incertain et de nombreuses entreprises suppriment des postes.</code>
+        <code>La réforme France Travail augmente le nombre de demandeurs d'emploi inscrits (jeunes, bénéficiaires du RSA).</code>
+      </div>
+      <div class="corr-etape">
+        <span class="c-num">3</span>
+        <p>Ces personnes étaient comptées comme inactives. Une fois inscrites et accompagnées, elles cherchent un emploi : elles deviennent actives inoccupées.</p>
+        <p class="conclu">Les chiffres du manuel datent de 2023 et 2024 : ils peuvent avoir changé depuis.</p>
+      </div>
+    </div>
+  </div>
+</details>
+
+<!-- EX 4 -->
+<details class="exo-card">
+  <summary class="exo-header">
+    <span class="exo-num">Ex. 4</span>
+    <span class="badge badge-exam">★ examen</span>
+    <span class="exo-titre-txt">Les jeunes sont-ils plus touchés par le chômage ?</span>
+    <span class="chevron">▼</span>
+  </summary>
+  <div class="exo-body">
+    <div class="contexte">
+      Lucas obtiendra son CAP dans quelques mois. Il demande à M. Ponti : « c'est plus dur de trouver du travail quand on est jeune ? ». Ils reprennent le tableau de l'exercice 2 (<strong>document 1 du manuel</strong>).
+    </div>
+    <div class="questions">
+      <div class="question"><span class="q-num">1</span><p>Calcule le nombre d'actifs de 15 à 29 ans.</p></div>
+      <div class="question"><span class="q-num">2</span><p>Calcule le taux de chômage des 15 à 29 ans (arrondi à 0,1 %).</p></div>
+      <div class="question"><span class="q-num">3</span><p>Le taux de chômage de l'ensemble des actifs est de 7,3 % en 2023. Réponds à la question de Lucas.</p></div>
+    </div>
+    <div class="ordre-grandeur"><strong>Coup de pouce :</strong> taux de chômage = chômeurs ÷ actifs × 100. Les inactifs ne comptent pas.</div>
+    <button class="btn-corrige" onclick="toggleCorr(this)">✅ Voir la correction</button>
+    <div class="correction">
+      <div class="corr-etape">
+        <span class="c-num">1</span>
+        <code>5 631,5 + 889,1 = 6 520,6 milliers d'actifs</code>
+      </div>
+      <div class="corr-etape">
+        <span class="c-num">2</span>
+        <code>889,1 ÷ 6 520,6 × 100 = 13,6 %</code>
+      </div>
+      <div class="corr-etape">
+        <span class="c-num">3</span>
+        <p class="res">Oui : le taux de chômage des 15 à 29 ans (13,6 %) est presque le double de celui de l'ensemble des actifs (2 285 ÷ 31 499,6 × 100 = 7,3 %).</p>
+        <p class="conclu">Attention : la colonne « répartition (%) » du document 1 (7,7 % pour les 15 à 29 ans) n'est pas un taux de chômage. Elle compare les chômeurs à toute la tranche d'âge, inactifs compris.</p>
+      </div>
+    </div>
+  </div>
+</details>
+
+<!-- ══════════════════════════════════════════════════════════
+     BLOC 2 – OÙ CHERCHER UN EMPLOI (séance 2)
+══════════════════════════════════════════════════════════ -->
+<hr class="section-sep">
+
+<div class="bloc-titre" id="chercher" style="margin-top:40px">
+  <span class="icone">🔎</span>
+  <h2><small>Séance 2 · 1 h</small>Bloc 2 – Où chercher un emploi ?</h2>
+</div>
+
+<div class="memo">
+  <div class="memo-titre">🗂 mémo</div>
+  <code>Canaux = moyens où trouver les offres : internet (sites généralistes, sites spécialisés en boulangerie, réseaux sociaux), presse écrite (presse professionnelle, journaux locaux), radio, affichage, bouche-à-oreille.</code>
+  <code>Organismes facilitateurs = ceux qui aident le demandeur : service public de l'emploi (France Travail, missions locales), agences d'intérim, organisations professionnelles.</code>
+  <code>Choisir une offre = vérifier le poste, le lieu, le type de contrat, la durée du travail, le salaire, l'expérience et le diplôme demandés.</code>
+  <p class="note">Sources : documents 3 et 5 du manuel.</p>
+</div>
+
+<!-- EX 5 -->
+<details class="exo-card">
+  <summary class="exo-header">
+    <span class="exo-num">Ex. 5</span>
+    <span class="badge badge-1">⬆ décollage</span>
+    <span class="exo-titre-txt">Les outils de recherche d'emploi</span>
+    <span class="chevron">▼</span>
+  </summary>
+  <div class="exo-body">
+    <div class="contexte">
+      Audrey Bousquet cherche un poste de boulangère en bord de mer après son CDD chez Valenton, à Tarbes. Elle a noté des exemples d'outils (<strong>exercice 6 du manuel</strong>) :
+    </div>
+    <div class="table-wrap">
+    <table class="tableau-donnees">
+      <tr><th>Exemples</th><th>Outil ?</th></tr>
+      <tr><td>Leboncoin, Monster, Météojob, Jooble…</td><td>A</td></tr>
+      <tr><td>Emploi Boulangerie, CNBP</td><td>B</td></tr>
+      <tr><td>LinkedIn, Instagram, Facebook</td><td>C</td></tr>
+      <tr><td>Les Nouvelles de la Boulangerie, journaux locaux</td><td>D</td></tr>
+      <tr><td>Radio locale</td><td>E</td></tr>
+    </table>
+    </div>
+    <div class="questions">
+      <div class="question"><span class="q-num">1</span><p>Associe A, B, C, D, E à l'outil : réseaux sociaux · radios · sites spécialisés en boulangerie · magazines · sites généralistes.</p></div>
+      <div class="question"><span class="q-num">2</span><p>Cite 2 autres sources que ces outils.</p></div>
+      <div class="question"><span class="q-num">3</span><p>Quel outil conseilles-tu à Audrey en premier ? Justifie.</p></div>
+    </div>
+    <div class="ordre-grandeur"><strong>Coup de pouce :</strong> dans une boulangerie, le meunier connaît beaucoup de patrons.</div>
+    <button class="btn-corrige" onclick="toggleCorr(this)">✅ Voir la correction</button>
+    <div class="correction">
+      <div class="corr-etape">
+        <span class="c-num">1</span>
+        <code>A = sites généralistes · B = sites spécialisés en boulangerie-pâtisserie · C = réseaux sociaux · D = magazines (presse écrite) · E = radios locales et nationales</code>
+      </div>
+      <div class="corr-etape">
+        <span class="c-num">2</span>
+        <code>Affichage dans l'entreprise · bouche-à-oreille (fournisseurs, meuniers, chefs d'entreprise)</code>
+      </div>
+      <div class="corr-etape">
+        <span class="c-num">3</span>
+        <p class="res">Les sites spécialisés en boulangerie-pâtisserie : les offres correspondent directement au métier préparé.</p>
+        <p class="conclu">Adaptation : le manuel range aussi le SPE et les agences d'intérim parmi les « sites généralistes ». Ce sont des organismes facilitateurs : ils sont traités à l'exercice 6.</p>
+      </div>
+    </div>
+  </div>
+</details>
+
+<!-- EX 6 -->
+<details class="exo-card">
+  <summary class="exo-header">
+    <span class="exo-num">Ex. 6</span>
+    <span class="badge badge-1">⬆ décollage</span>
+    <span class="exo-titre-txt">Canal ou organisme qui aide ?</span>
+    <span class="chevron">▼</span>
+  </summary>
+  <div class="exo-body">
+    <div class="contexte">
+      Lucas fait la liste de ce qui pourra l'aider après son CAP :<br><br>
+      France Travail · une agence d'intérim · le journal local · Instagram · la mission locale · l'organisation professionnelle des boulangers · une affiche dans la boutique du meunier
+    </div>
+    <div class="questions">
+      <div class="question"><span class="q-num">1</span><p>Classe chaque élément : canal de communication ou organisme facilitateur.</p></div>
+      <div class="question"><span class="q-num">2</span><p>Explique la différence entre un canal et un organisme facilitateur.</p></div>
+    </div>
+    <div class="ordre-grandeur"><strong>Coup de pouce :</strong> un organisme facilitateur peut te recevoir, te conseiller, te proposer des offres.</div>
+    <button class="btn-corrige" onclick="toggleCorr(this)">✅ Voir la correction</button>
+    <div class="correction">
+      <div class="corr-etape">
+        <span class="c-num">1</span>
+        <div class="table-wrap">
+        <table class="tableau-corr">
+          <tr><th>Canaux</th><th>Organismes facilitateurs</th></tr>
+          <tr><td>Le journal local</td><td>France Travail</td></tr>
+          <tr><td>Instagram</td><td>L'agence d'intérim</td></tr>
+          <tr><td>L'affiche chez le meunier</td><td>La mission locale</td></tr>
+          <tr><td></td><td>L'organisation professionnelle</td></tr>
+        </table>
+        </div>
+      </div>
+      <div class="corr-etape">
+        <span class="c-num">2</span>
+        <p class="res">Un canal fait circuler les offres d'emploi. Un organisme facilitateur accompagne le demandeur d'emploi et l'aide à trouver un poste.</p>
+        <p class="conclu">France Travail et les missions locales font partie du service public de l'emploi (note 1 du document 3).</p>
+      </div>
+    </div>
+  </div>
+</details>
+
+<!-- EX 7 -->
+<details class="exo-card">
+  <summary class="exo-header">
+    <span class="exo-num">Ex. 7</span>
+    <span class="badge badge-2">◆ intermédiaire</span>
+    <span class="exo-titre-txt">Quelle offre choisir ?</span>
+    <span class="chevron">▼</span>
+  </summary>
+  <div class="exo-body">
+    <div class="contexte">
+      Audrey a son CAP boulanger. Elle veut un poste de <strong>boulangère en CDI, en bord de mer</strong>. Elle a retenu 4 offres (<strong>document 5 du manuel</strong>) :
+    </div>
+    <div class="table-wrap">
+    <table class="tableau-donnees">
+      <tr><th>Offre</th><th>Poste</th><th>Contrat et durée</th><th>Exigences</th></tr>
+      <tr><td>1. Labenne (40), Pains et Levain</td><td>Boulanger</td><td>CDI, 35 h</td><td>2 ans d'expérience, titulaire d'un BP</td></tr>
+      <tr><td>2. La Rochelle (17), Fournil et Labo (industriel)</td><td>Ouvrier boulanger-pâtissier</td><td>CDI, 35 h, Smic</td><td>Aucune expérience, aucune formation assurée</td></tr>
+      <tr><td>3. Capbreton (40), Pains et Plaisirs Sucrés</td><td>Boulanger</td><td>CDI, 2 jours par semaine, 1 800 € net</td><td>Non précisé</td></tr>
+      <tr><td>4. Biscarrosse (40)</td><td>Pâtissier</td><td>CDI, samedi et dimanche</td><td>Non précisé</td></tr>
+    </table>
+    </div>
+    <div class="questions">
+      <div class="question"><span class="q-num">1</span><p>Élimine les offres qui ne conviennent pas. Donne une raison pour chacune.</p></div>
+      <div class="question"><span class="q-num">2</span><p>Quelle offre Audrey doit-elle choisir ? Justifie (exercice 8 du manuel).</p></div>
+      <div class="question"><span class="q-num">3</span><p>Repère une information étonnante dans l'offre 3.</p></div>
+    </div>
+    <div class="ordre-grandeur"><strong>Coup de pouce :</strong> compare chaque offre avec les 3 souhaits d'Audrey et avec son diplôme.</div>
+    <button class="btn-corrige" onclick="toggleCorr(this)">✅ Voir la correction</button>
+    <div class="correction">
+      <div class="corr-etape">
+        <span class="c-num">1</span>
+        <code>Offre 1 : il faut un BP et 2 ans d'expérience, Audrey a un CAP.</code>
+        <code>Offre 2 : boulangerie industrielle, poste d'ouvrier sans qualification.</code>
+        <code>Offre 4 : poste de pâtissier, pas de boulanger.</code>
+      </div>
+      <div class="corr-etape">
+        <span class="c-num">2</span>
+        <p class="res">L'offre 3, à Capbreton : poste de boulanger, en CDI, en bord de mer, sans exigence qu'Audrey ne remplit pas.</p>
+      </div>
+      <div class="corr-etape">
+        <span class="c-num">3</span>
+        <p>« 2 jours par semaine » pour 1 800 € net, c'est incohérent : avant de postuler, Audrey doit vérifier la durée du travail.</p>
+        <p class="conclu">Remarques sur le manuel : le corrigé parle de « boulangerie artisanale », ce que l'offre 3 ne précise pas. La ville s'écrit Biscarrosse (et non Biscarosse).</p>
+      </div>
+    </div>
+  </div>
+</details>
+
+<!-- EX 8 -->
+<details class="exo-card">
+  <summary class="exo-header">
+    <span class="exo-num">Ex. 8</span>
+    <span class="badge badge-exam">★ examen</span>
+    <span class="exo-titre-txt">Lire une offre d'emploi</span>
+    <span class="chevron">▼</span>
+  </summary>
+  <div class="exo-body">
+    <div class="contexte">
+      Lucas lit l'<strong>offre 1 du document 5</strong> : la boulangerie Pains et Levain, à Labenne, recrute un boulanger. CDI, 35 h du lundi au vendredi, salaire de 1 600 à 1 800 € net selon le profil. Expérience : 2 ans (indispensable). Qualification : ouvrier spécialisé titulaire d'un BP. Savoir-être : travail en équipe, autonomie, sens de l'organisation.
+    </div>
+    <div class="questions">
+      <div class="question"><span class="q-num">1</span><p>Relève le type de contrat, la durée du travail et le salaire.</p></div>
+      <div class="question"><span class="q-num">2</span><p>Lucas pourra-t-il postuler juste après son CAP ? Justifie.</p></div>
+      <div class="question"><span class="q-num">3</span><p>Cite 2 savoir-être demandés.</p></div>
+    </div>
+    <div class="ordre-grandeur"><strong>Coup de pouce :</strong> le BP (brevet professionnel) se prépare après le CAP.</div>
+    <button class="btn-corrige" onclick="toggleCorr(this)">✅ Voir la correction</button>
+    <div class="correction">
+      <div class="corr-etape">
+        <span class="c-num">1</span>
+        <code>CDI · 35 h par semaine, du lundi au vendredi · 1 600 à 1 800 € net selon le profil</code>
+      </div>
+      <div class="corr-etape">
+        <span class="c-num">2</span>
+        <p class="res">Non : l'offre exige un BP et 2 ans d'expérience. Avec un CAP seul et sans expérience, Lucas ne remplit pas les conditions.</p>
+      </div>
+      <div class="corr-etape">
+        <span class="c-num">3</span>
+        <code>Travail en équipe · autonomie · sens de l'organisation (2 au choix)</code>
+        <p class="conclu">Lire chaque ligne de l'offre évite d'envoyer des candidatures inutiles.</p>
+      </div>
+    </div>
+  </div>
+</details>
+
+<!-- ══════════════════════════════════════════════════════════
+     BLOC 3 – DROITS, DEVOIRS ET LETTRE (séance 3)
+══════════════════════════════════════════════════════════ -->
+<hr class="section-sep">
+
+<div class="bloc-titre" id="lettre" style="margin-top:40px">
+  <span class="icone">✉️</span>
+  <h2><small>Séance 3 · 1 h</small>Bloc 3 – Droits, devoirs et lettre de motivation</h2>
+</div>
+
+<div class="memo">
+  <div class="memo-titre">🗂 mémo</div>
+  <code>Droits du demandeur d'emploi : être accompagné, bénéficier d'une protection sociale, être indemnisé sous conditions.</code>
+  <code>Devoirs : s'actualiser chaque mois, se présenter aux rendez-vous, chercher activement un emploi, définir et actualiser son PPAE, accepter une offre raisonnable d'emploi.</code>
+  <code>Lettre de motivation : une page, aucune faute, claire, personnalisée, polie. Elle accompagne le CV et donne envie au recruteur de te rencontrer.</code>
+  <p class="note">PPAE = projet personnalisé d'accès à l'emploi. Sources : documents 4, 6 et 7 du manuel.</p>
+</div>
+
+<!-- EX 9 -->
+<details class="exo-card">
+  <summary class="exo-header">
+    <span class="exo-num">Ex. 9</span>
+    <span class="badge badge-1">⬆ décollage</span>
+    <span class="exo-titre-txt">Droit ou devoir ?</span>
+    <span class="chevron">▼</span>
+  </summary>
+  <div class="exo-body">
+    <div class="contexte">
+      Audrey s'inscrit à France Travail. Son conseiller lui donne une liste (<strong>exercice 7 du manuel, document 4</strong>) :<br><br>
+      a. l'accès gratuit aux services de France Travail<br>
+      b. percevoir une allocation sous certaines conditions<br>
+      c. répondre à toutes les convocations<br>
+      d. actualiser sa situation chaque mois<br>
+      e. une couverture sociale<br>
+      f. définir et actualiser son PPAE<br>
+      g. rechercher du travail en postulant à des offres<br>
+      h. accepter une offre raisonnable d'emploi<br>
+      i. informer France Travail de tout changement
+    </div>
+    <div class="questions">
+      <div class="question"><span class="q-num">1</span><p>Classe chaque élément : droit ou devoir.</p></div>
+    </div>
+    <div class="ordre-grandeur"><strong>Coup de pouce :</strong> un droit, Audrey le reçoit. Un devoir, elle doit le faire.</div>
+    <button class="btn-corrige" onclick="toggleCorr(this)">✅ Voir la correction</button>
+    <div class="correction">
+      <div class="corr-etape">
+        <span class="c-num">1</span>
+        <div class="table-wrap">
+        <table class="tableau-corr">
+          <tr><th>Droits</th><th>Devoirs</th></tr>
+          <tr><td>a. accès gratuit aux services</td><td>c. répondre aux convocations</td></tr>
+          <tr><td>b. allocation sous conditions</td><td>d. actualisation mensuelle</td></tr>
+          <tr><td>e. couverture sociale</td><td>f. définir et actualiser son PPAE</td></tr>
+          <tr><td></td><td>g. rechercher du travail</td></tr>
+          <tr><td></td><td>h. accepter une offre raisonnable</td></tr>
+          <tr><td></td><td>i. informer de tout changement</td></tr>
+        </table>
+        </div>
+        <p class="conclu">Erreur du corrigé du manuel : il classe « définir et actualiser son PPAE » parmi les droits. Le document 4 le place dans « le demandeur d'emploi s'engage à » : c'est un devoir.</p>
+      </div>
+    </div>
+  </div>
+</details>
+
+<!-- EX 10 -->
+<details class="exo-card">
+  <summary class="exo-header">
+    <span class="exo-num">Ex. 10</span>
+    <span class="badge badge-2">◆ intermédiaire</span>
+    <span class="exo-titre-txt">Les conséquences d'un devoir oublié</span>
+    <span class="chevron">▼</span>
+  </summary>
+  <div class="exo-body">
+    <div class="contexte">
+      Audrey est inscrite à France Travail et touche une allocation. Trois situations :<br><br>
+      <strong>A.</strong> En mars, elle oublie de s'actualiser.<br>
+      <strong>B.</strong> Elle ne va pas à un rendez-vous, sans motif valable.<br>
+      <strong>C.</strong> Elle refuse deux offres raisonnables d'emploi, sans motif légitime.
+    </div>
+    <div class="questions">
+      <div class="question"><span class="q-num">1</span><p>Pour chaque situation, indique le devoir non respecté.</p></div>
+      <div class="question"><span class="q-num">2</span><p>Indique la conséquence pour Audrey (document 4 du manuel).</p></div>
+    </div>
+    <div class="ordre-grandeur"><strong>Coup de pouce :</strong> « être radié » veut dire « ne plus être inscrit ».</div>
+    <button class="btn-corrige" onclick="toggleCorr(this)">✅ Voir la correction</button>
+    <div class="correction">
+      <div class="corr-etape">
+        <span class="c-num">1</span>
+        <div class="table-wrap">
+        <table class="tableau-corr">
+          <tr><th>Situation</th><th>Devoir</th><th>Conséquence</th></tr>
+          <tr><td class="val">A</td><td>Déclarer mensuellement sa situation</td><td>Elle n'est plus inscrite et n'est plus payée.</td></tr>
+          <tr><td class="val">B</td><td>Se présenter à tous ses rendez-vous</td><td>Radiation possible et arrêt des paiements.</td></tr>
+          <tr><td class="val">C</td><td>Accepter une offre raisonnable d'emploi</td><td>Radiation possible et suppression de l'allocation.</td></tr>
+        </table>
+        </div>
+        <p class="conclu">Les droits du demandeur d'emploi existent seulement s'il respecte ses devoirs.</p>
+      </div>
+    </div>
+  </div>
+</details>
+
+<!-- EX 11 -->
+<details class="exo-card">
+  <summary class="exo-header">
+    <span class="exo-num">Ex. 11</span>
+    <span class="badge badge-2">◆ intermédiaire</span>
+    <span class="exo-titre-txt">Les règles de la lettre de motivation</span>
+    <span class="chevron">▼</span>
+  </summary>
+  <div class="exo-body">
+    <div class="contexte">
+      Audrey veut postuler chez <strong>Pains et Plaisirs Sucrés</strong>. Elle lit le <strong>document 6 du manuel</strong> : « les règles d'or de la lettre de motivation ». Sa première version fait deux pages et contient trois fautes d'orthographe. Elle l'a envoyée, à l'identique, à cinq boulangeries.
+    </div>
+    <div class="questions">
+      <div class="question"><span class="q-num">1</span><p>Cite 4 caractéristiques d'une lettre de motivation (exercice 9 du manuel).</p></div>
+      <div class="question"><span class="q-num">2</span><p>Relève 3 règles qu'Audrey ne respecte pas.</p></div>
+    </div>
+    <div class="ordre-grandeur"><strong>Coup de pouce :</strong> pense à la longueur, à l'orthographe et à la personnalisation.</div>
+    <button class="btn-corrige" onclick="toggleCorr(this)">✅ Voir la correction</button>
+    <div class="correction">
+      <div class="corr-etape">
+        <span class="c-num">1</span> Corrigé du manuel :
+        <code>a. Elle accompagne le plus souvent un CV.</code>
+        <code>b. Elle détaille les aptitudes, compétences et connaissances du candidat.</code>
+        <code>c. Elle montre les motivations et les raisons de la candidature.</code>
+        <code>d. Elle suscite l'intérêt du recruteur.</code>
+      </div>
+      <div class="corr-etape">
+        <span class="c-num">2</span>
+        <code>Une page, pas plus · aucune faute d'orthographe · pertinence et personnalisation (une lettre adaptée à chaque entreprise)</code>
+        <p class="conclu">Selon le document 6, 90 % des recruteurs arrêtent de lire à la première faute : il faut faire relire sa lettre.</p>
+      </div>
+    </div>
+  </div>
+</details>
+
+<!-- EX 12 -->
+<details class="exo-card">
+  <summary class="exo-header">
+    <span class="exo-num">Ex. 12</span>
+    <span class="badge badge-exam">★ examen</span>
+    <span class="exo-titre-txt">Les 10 parties de la lettre d'Audrey</span>
+    <span class="chevron">▼</span>
+  </summary>
+  <div class="exo-body">
+    <div class="contexte">
+      Voici la lettre d'Audrey, construite sur le <strong>document 7 du manuel</strong>. Chaque partie porte un numéro.<br><br>
+      [5] Audrey Bousquet – 7 impasse Dizac – 65000 Tarbes – 06 05 04 xx xx – audreybousquet@monmail.fr<br>
+      [2] Mme Nadau-Fourcade – Boulangerie Pains et Plaisirs Sucrés – 40130 Capbreton<br>
+      [8] Tarbes, le 24 février 2024<br>
+      [1] À la suite de votre annonce du 22 février 2024, je vous propose ma candidature au poste de boulangère.<br>
+      [9] J'adhère à vos démarches qualité (blés CRC, farines locales, longues fermentations).<br>
+      [7] Titulaire d'un CAP boulanger, je maîtrise le pétrissage, les fermentations, le façonnage et la cuisson.<br>
+      [4] Je respecte les consignes d'hygiène et de sécurité. Je suis rigoureuse et résistante.<br>
+      [3] Je me tiens à votre disposition pour un entretien.<br>
+      [6] Je vous prie d'agréer, Madame, l'expression de mes salutations distinguées.<br>
+      [10] A. Bousquet
+    </div>
+    <div class="questions">
+      <div class="question"><span class="q-num">1</span><p>Relie chaque numéro à son thème (exercice 10 du manuel) : coordonnées de l'entreprise · références de l'annonce et candidature · proposition d'entretien · coordonnées de la candidate · capacités · formule de politesse · formation et diplôme · date et lieu · motivation · signature.</p></div>
+      <div class="question"><span class="q-num">2</span><p>Pourquoi Audrey cite-t-elle les blés CRC et les longues fermentations ?</p></div>
+    </div>
+    <div class="ordre-grandeur"><strong>Coup de pouce :</strong> commence par les parties faciles : signature, date, formule de politesse.</div>
+    <button class="btn-corrige" onclick="toggleCorr(this)">✅ Voir la correction</button>
+    <div class="correction">
+      <div class="corr-etape">
+        <span class="c-num">1</span>
+        <div class="table-wrap">
+        <table class="tableau-corr">
+          <tr><th>N°</th><th>Thème</th></tr>
+          <tr><td class="val">1</td><td>Références de l'annonce et candidature</td></tr>
+          <tr><td class="val">2</td><td>Coordonnées de l'entreprise</td></tr>
+          <tr><td class="val">3</td><td>Proposition d'entretien</td></tr>
+          <tr><td class="val">4</td><td>Capacités de la candidate</td></tr>
+          <tr><td class="val">5</td><td>Coordonnées de la candidate</td></tr>
+          <tr><td class="val">6</td><td>Formule de politesse</td></tr>
+          <tr><td class="val">7</td><td>Formation, diplôme et expérience</td></tr>
+          <tr><td class="val">8</td><td>Date et lieu de rédaction</td></tr>
+          <tr><td class="val">9</td><td>Motivation et intérêt pour l'entreprise</td></tr>
+          <tr><td class="val">10</td><td>Signature manuscrite</td></tr>
+        </table>
+        </div>
+      </div>
+      <div class="corr-etape">
+        <span class="c-num">2</span>
+        <p class="res">Pour montrer qu'elle connaît l'entreprise et que sa lettre est personnalisée.</p>
+        <p class="conclu">Adaptations : dans le manuel, la lettre est adressée à « M. Ponti », alors que la gérante est Mme Nadau-Fourcade (partie 6 du manuel). Ici, la lettre est adressée à la gérante et M. Ponti devient le chef boulanger. « Suite à » a été remplacé par « à la suite de », plus correct.</p>
+      </div>
+    </div>
+  </div>
+</details>
+
+<!-- ══════════════════════════════════════════════════════════
+     BLOC 4 – CV ET ENTRETIEN (séance 4)
+══════════════════════════════════════════════════════════ -->
+<hr class="section-sep">
+
+<div class="bloc-titre" id="entretien" style="margin-top:40px">
+  <span class="icone">🤝</span>
+  <h2><small>Séance 4 · 1 h</small>Bloc 4 – Le CV et l'entretien d'embauche</h2>
+</div>
+
+<div class="memo">
+  <div class="memo-titre">🗂 mémo</div>
+  <code>CV = document qui présente le candidat, son parcours et ses compétences, pour obtenir un entretien.</code>
+  <code>6 rubriques du CV : état civil et coordonnées · titre · expérience professionnelle · compétences · formation · activités extra-professionnelles.</code>
+  <code>Entretien d'embauche = rencontre où l'employeur vérifie que le candidat a les compétences du poste.</code>
+  <code>Le jour J : arriver quelques minutes en avance, tenue soignée, téléphone éteint, langage correct, rester poli du début à la fin.</code>
+  <p class="note">Sources : documents 8 à 12 du manuel.</p>
+</div>
+
+<!-- EX 13 -->
+<details class="exo-card">
+  <summary class="exo-header">
+    <span class="exo-num">Ex. 13</span>
+    <span class="badge badge-1">⬆ décollage</span>
+    <span class="exo-titre-txt">Ranger les informations du CV</span>
+    <span class="chevron">▼</span>
+  </summary>
+  <div class="exo-body">
+    <div class="contexte">
+      Audrey prépare son CV pour Pains et Plaisirs Sucrés. Elle a noté en vrac :<br><br>
+      a. CAP boulanger<br>
+      b. 7 impasse Dizac, 65000 Tarbes, 06 05 04 xx xx<br>
+      c. CDD de boulangère chez Valenton, à Tarbes<br>
+      d. Pétrissage, fermentations, façonnage, cuisson<br>
+      e. Boulangère – CAP<br>
+      f. Bénévole à la fête du pain de son village
+    </div>
+    <div class="questions">
+      <div class="question"><span class="q-num">1</span><p>Cite 3 objectifs du CV (exercice 11 du manuel, document 8).</p></div>
+      <div class="question"><span class="q-num">2</span><p>Range chaque information dans une rubrique du CV (document 9).</p></div>
+      <div class="question"><span class="q-num">3</span><p>Quelle rubrique est le « cœur » du CV ?</p></div>
+    </div>
+    <div class="ordre-grandeur"><strong>Coup de pouce :</strong> le titre est la ligne qui dit tout de suite quel métier tu fais.</div>
+    <button class="btn-corrige" onclick="toggleCorr(this)">✅ Voir la correction</button>
+    <div class="correction">
+      <div class="corr-etape">
+        <span class="c-num">1</span> Corrigé du manuel :
+        <code>Se présenter au recruteur · présenter son parcours professionnel · présenter ses compétences et capacités</code>
+      </div>
+      <div class="corr-etape">
+        <span class="c-num">2</span>
+        <code>a → formation · b → état civil et coordonnées · c → expérience professionnelle · d → compétences · e → titre · f → activités extra-professionnelles</code>
+      </div>
+      <div class="corr-etape">
+        <span class="c-num">3</span>
+        <p class="res">L'expérience professionnelle.</p>
+        <p class="conclu">Le CV et la lettre sont deux documents différents, envoyés ensemble.</p>
+      </div>
+    </div>
+  </div>
+</details>
+
+<!-- EX 14 -->
+<details class="exo-card">
+  <summary class="exo-header">
+    <span class="exo-num">Ex. 14</span>
+    <span class="badge badge-2">◆ intermédiaire</span>
+    <span class="exo-titre-txt">Préparer l'entretien et bien se tenir</span>
+    <span class="chevron">▼</span>
+  </summary>
+  <div class="exo-body">
+    <div class="contexte">
+      Mme Nadau-Fourcade convoque Audrey à un entretien, mardi à 15 h, à la boulangerie. Le jour J, on observe plusieurs candidats (<strong>exercice 13 du manuel</strong>) :<br><br>
+      a. Kevin arrive en survêtement et lunettes de soleil.<br>
+      b. Inès arrive pile à 15 h.<br>
+      c. Sami mâche un chewing-gum, téléphone en vibreur.<br>
+      d. Chloé critique son ancien patron.<br>
+      e. Tom répond « ouais, t'inquiète, je gère ».<br>
+      f. Audrey se tient droite, sourit et regarde Mme Nadau-Fourcade.<br>
+      g. Noé parle lentement pour éviter trop de questions.
+    </div>
+    <div class="questions">
+      <div class="question"><span class="q-num">1</span><p>Cite 5 points pour préparer un entretien (exercice 12 du manuel).</p></div>
+      <div class="question"><span class="q-num">2</span><p>Classe chaque attitude : point positif ou point négatif.</p></div>
+    </div>
+    <div class="ordre-grandeur"><strong>Coup de pouce :</strong> document 11 : « arrivez quelques minutes en avance ».</div>
+    <button class="btn-corrige" onclick="toggleCorr(this)">✅ Voir la correction</button>
+    <div class="correction">
+      <div class="corr-etape">
+        <span class="c-num">1</span> Corrigé du manuel :
+        <code>Se renseigner sur l'entreprise et ses produits · se renseigner sur la personne qui reçoit · relier ses compétences au poste · préparer une synthèse de son expérience · préparer les questions du recruteur (qualités, défauts, pourquoi moi)</code>
+      </div>
+      <div class="corr-etape">
+        <span class="c-num">2</span>
+        <code>Positif : f</code>
+        <code>Négatif : a, b, c, d, e, g</code>
+        <p class="conclu">b : être juste à l'heure ne laisse aucune marge. g : parler calmement est bien, mais le faire pour éviter les questions est une attitude d'évitement. Le recruteur le remarque.</p>
+      </div>
+    </div>
+  </div>
+</details>
+
+<!-- EX 15 -->
+<details class="exo-card">
+  <summary class="exo-header">
+    <span class="exo-num">Ex. 15</span>
+    <span class="badge badge-exam">★ examen</span>
+    <span class="exo-titre-txt">Les 6 étapes de l'entretien</span>
+    <span class="chevron">▼</span>
+  </summary>
+  <div class="exo-body">
+    <div class="contexte">
+      L'entretien d'Audrey chez Pains et Plaisirs Sucrés se déroule ainsi, dans le désordre (<strong>document 12 du manuel</strong>) :<br><br>
+      • Mme Nadau-Fourcade présente la boulangerie et le poste<br>
+      • le soir, Audrey envoie un mail de remerciement<br>
+      • on parle du salaire et de la date d'embauche<br>
+      • Audrey raconte son parcours<br>
+      • Mme Nadau-Fourcade l'accueille et lui serre la main<br>
+      • la gérante conclut et annonce quand elle donnera sa réponse
+    </div>
+    <div class="questions">
+      <div class="question"><span class="q-num">1</span><p>Remets les 6 étapes dans l'ordre (exercice 14 du manuel).</p></div>
+      <div class="question"><span class="q-num">2</span><p>Transforme en langage correct : « ouais, je gère, t'inquiète ».</p></div>
+    </div>
+    <div class="ordre-grandeur"><strong>Coup de pouce :</strong> l'entretien commence avant de s'asseoir et se termine après être sorti.</div>
+    <button class="btn-corrige" onclick="toggleCorr(this)">✅ Voir la correction</button>
+    <div class="correction">
+      <div class="corr-etape">
+        <span class="c-num">1</span>
+        <code>1. L'accueil · 2. La présentation du parcours · 3. La présentation de l'entreprise et du poste · 4. La rémunération et les modalités d'embauche · 5. La conclusion et le rétroplanning · 6. Le mail de remerciement</code>
+        <p class="conclu">Remarque : le corrigé du manuel ne reprend pas exactement le document 12 (il cite « les questions du candidat » en étape 4). La correction suit le document 12.</p>
+      </div>
+      <div class="corr-etape">
+        <span class="c-num">2</span> Exemple :
+        <code>« Oui, je sais le faire, vous pouvez compter sur moi. »</code>
+      </div>
+    </div>
+  </div>
+</details>
+
+<!-- ══════════════════════════════════════════════════════════
+     BLOC 5 – SUJETS TYPE EXAMEN (séance 5)
+══════════════════════════════════════════════════════════ -->
+<hr class="section-sep">
+
+<div class="bloc-titre" id="examen" style="margin-top:40px">
+  <span class="icone">🏁</span>
+  <h2><small>Séance 5 · 1 h</small>Bloc 5 – Sujets type examen EP1</h2>
+</div>
+
+<div class="memo">
+  <div class="memo-titre">🗂 méthode pour l'examen</div>
+  <code>1. Lire la situation et souligner les mots clés (contrat, diplôme, lieu…)</code>
+  <code>2. Répondre à chaque question par une phrase complète</code>
+  <code>3. Justifier : « parce que… », « le document montre que… »</code>
+  <p class="note">À l'épreuve EP1, la partie gestion appliquée dure environ 30 minutes. Elle s'appuie sur une situation professionnelle commune aux trois parties de l'épreuve.</p>
+</div>
+
+<!-- EX 16 -->
+<details class="exo-card">
+  <summary class="exo-header">
+    <span class="exo-num">Ex. 16</span>
+    <span class="badge badge-exam">★ examen</span>
+    <span class="exo-titre-txt">Sujet complet (30 min) : Lucas cherche son premier emploi</span>
+    <span class="chevron">▼</span>
+  </summary>
+  <div class="exo-body">
+    <div class="contexte">
+      Lucas termine son CAP boulanger chez <strong>Pains et Plaisirs Sucrés</strong>. Son contrat d'apprentissage s'arrête en juillet. Mme Nadau-Fourcade ne peut pas le garder. Lucas veut un poste de boulanger en CDI, près de Capbreton. Il trouve cette annonce dans le journal local :<br><br>
+      <em>« Boulangerie de Hossegor recrute boulanger (H/F). CDI, 35 h. Titulaire du CAP boulanger. Débutant accepté. Qualités : ponctualité, travail en équipe. Envoyer CV et lettre de motivation. »</em>
+    </div>
+    <div class="questions">
+      <div class="question"><span class="q-num">1</span><p>En août, Lucas sera sans emploi et cherchera un poste. Dans quelle catégorie de la population sera-t-il ?</p></div>
+      <div class="question"><span class="q-num">2</span><p>Par quel canal Lucas a-t-il trouvé l'annonce ? Cite 2 autres canaux.</p></div>
+      <div class="question"><span class="q-num">3</span><p>Cite 2 organismes qui peuvent l'aider.</p></div>
+      <div class="question"><span class="q-num">4</span><p>Cette offre convient-elle à Lucas ? Justifie avec 3 éléments.</p></div>
+      <div class="question"><span class="q-num">5</span><p>Cite 2 droits et 2 devoirs de Lucas s'il s'inscrit à France Travail.</p></div>
+      <div class="question"><span class="q-num">6</span><p>Cite 4 règles à respecter pour sa lettre de motivation.</p></div>
+      <div class="question"><span class="q-num">7</span><p>Cite 2 attitudes à adopter et 2 attitudes à éviter pendant l'entretien.</p></div>
+    </div>
+    <div class="ordre-grandeur"><strong>Coup de pouce :</strong> environ 4 minutes par question. Relis les mémos des blocs 1 à 4.</div>
+    <button class="btn-corrige" onclick="toggleCorr(this)">✅ Voir la correction</button>
+    <div class="correction">
+      <div class="corr-etape">
+        <span class="c-num">1</span>
+        <p class="res">Population active inoccupée : il n'a pas d'emploi et en cherche un activement.</p>
+      </div>
+      <div class="corr-etape">
+        <span class="c-num">2</span>
+        <code>La presse écrite (journal local). Autres : sites spécialisés en boulangerie, sites généralistes, réseaux sociaux, radio, affichage, bouche-à-oreille.</code>
+      </div>
+      <div class="corr-etape">
+        <span class="c-num">3</span>
+        <code>France Travail · la mission locale · une agence d'intérim · une organisation professionnelle (2 au choix)</code>
+      </div>
+      <div class="corr-etape">
+        <span class="c-num">4</span>
+        <p class="res">Oui : poste de boulanger, en CDI, près de Capbreton, CAP demandé, débutant accepté.</p>
+      </div>
+      <div class="corr-etape">
+        <span class="c-num">5</span>
+        <code>Droits : être accompagné · protection sociale · allocation sous conditions</code>
+        <code>Devoirs : s'actualiser chaque mois · aller aux rendez-vous · chercher activement · accepter une offre raisonnable</code>
+      </div>
+      <div class="corr-etape">
+        <span class="c-num">6</span>
+        <code>Une page · aucune faute · claire · personnalisée pour cette boulangerie · positive · formule de politesse</code>
+      </div>
+      <div class="corr-etape">
+        <span class="c-num">7</span>
+        <code>À adopter : arriver en avance, tenue soignée, se tenir droit, sourire, regarder le recruteur, langage correct</code>
+        <code>À éviter : être juste à l'heure ou en retard, chewing-gum, téléphone allumé, langage familier, critiquer un ancien employeur</code>
+        <p class="conclu">Ce sujet couvre les 4 parties du chapitre : marché du travail, recherche d'emploi, lettre et entretien.</p>
+      </div>
+    </div>
+  </div>
+</details>
+
+<!-- EX 17 -->
+<details class="exo-card">
+  <summary class="exo-header">
+    <span class="exo-num">Ex. 17</span>
+    <span class="badge badge-exam">★ examen</span>
+    <span class="exo-titre-txt">Sujet court : France Travail et le chômage</span>
+    <span class="chevron">▼</span>
+  </summary>
+  <div class="exo-body">
+    <div class="contexte">
+      Audrey a commencé chez Pains et Plaisirs Sucrés. Son amie Clara, 22 ans, est au chômage depuis 3 mois. Clara dit : « je ne m'actualise plus, ça ne sert à rien, et de toute façon le chômage baisse ».
+    </div>
+    <div class="questions">
+      <div class="question"><span class="q-num">1</span><p>Quel risque prend Clara en ne s'actualisant plus ?</p></div>
+      <div class="question"><span class="q-num">2</span><p>D'après le document 2 du manuel, le chômage baissait-il au 3e trimestre 2024 ?</p></div>
+      <div class="question"><span class="q-num">3</span><p>Quel est le taux de chômage des 15 à 29 ans en 2023 (exercice 4) ? Que peux-tu dire à Clara ?</p></div>
+    </div>
+    <div class="ordre-grandeur"><strong>Coup de pouce :</strong> relis le document 4 : « déclarer mensuellement sa situation ».</div>
+    <button class="btn-corrige" onclick="toggleCorr(this)">✅ Voir la correction</button>
+    <div class="correction">
+      <div class="corr-etape">
+        <span class="c-num">1</span>
+        <p class="res">Elle ne sera plus inscrite comme demandeuse d'emploi et ne sera plus payée.</p>
+      </div>
+      <div class="corr-etape">
+        <span class="c-num">2</span>
+        <p class="res">Non : il a légèrement augmenté, à 7,4 % de la population active (+ 0,1 point).</p>
+      </div>
+      <div class="corr-etape">
+        <span class="c-num">3</span>
+        <p>13,6 % : les jeunes sont plus touchés. Clara doit garder son inscription pour être accompagnée et continuer ses démarches.</p>
+        <p class="conclu">Rester inscrit, c'est garder ses droits.</p>
+      </div>
+    </div>
+  </div>
+</details>
+
+<!-- EX 18 -->
+<details class="exo-card">
+  <summary class="exo-header">
+    <span class="exo-num">Ex. 18</span>
+    <span class="badge badge-exam">★ examen</span>
+    <span class="exo-titre-txt">Sujet court : M. Ponti recrute un apprenti</span>
+    <span class="chevron">▼</span>
+  </summary>
+  <div class="exo-body">
+    <div class="contexte">
+      M. Ponti, chef boulanger chez Pains et Plaisirs Sucrés, reçoit Yanis, candidat au poste d'apprenti. Yanis arrive 5 minutes en avance, en tenue propre. Pendant l'entretien, il dit : « mon ancien stage, c'était nul, le patron était trop relou ». Il n'a pas de CV.
+    </div>
+    <div class="questions">
+      <div class="question"><span class="q-num">1</span><p>Relève un point positif et deux points négatifs dans l'attitude de Yanis.</p></div>
+      <div class="question"><span class="q-num">2</span><p>Reformule la phrase de Yanis de façon correcte.</p></div>
+      <div class="question"><span class="q-num">3</span><p>Pourquoi Yanis aurait-il dû apporter un CV ?</p></div>
+    </div>
+    <div class="ordre-grandeur"><strong>Coup de pouce :</strong> on ne critique jamais un ancien employeur, même si ça s'est mal passé.</div>
+    <button class="btn-corrige" onclick="toggleCorr(this)">✅ Voir la correction</button>
+    <div class="correction">
+      <div class="corr-etape">
+        <span class="c-num">1</span>
+        <code>Positif : en avance, tenue propre</code>
+        <code>Négatif : langage familier (« nul », « relou ») · critique d'un ancien employeur · pas de CV</code>
+      </div>
+      <div class="corr-etape">
+        <span class="c-num">2</span> Exemple :
+        <code>« Ce stage m'a appris que j'ai besoin d'un tuteur qui m'explique. Je souhaite progresser dans votre boulangerie. »</code>
+      </div>
+      <div class="corr-etape">
+        <span class="c-num">3</span>
+        <p class="res">Le CV présente son parcours et ses compétences : il aide M. Ponti à connaître Yanis et à le comparer aux autres candidats.</p>
+        <p class="conclu">Une bonne impression se joue dès les premières secondes, puis tout au long de l'entretien.</p>
+      </div>
+    </div>
+  </div>
+</details>
+
+</main>
+
+<footer class="site-footer">
+  CAP boulanger – Gestion appliquée &nbsp;|&nbsp; Chapitre 19 : la recherche d'emploi &nbsp;|&nbsp; 18 exercices progressifs
+</footer>
+
+
+<script>
+function toggleCorr(btn) {
+  const corr = btn.nextElementSibling;
+  const isVisible = corr.classList.contains('visible');
+  corr.classList.toggle('visible', !isVisible);
+  btn.textContent = isVisible ? '✅ Voir la correction' : '🔒 Masquer la correction';
+}
+</script>
+</body>
+</html>
